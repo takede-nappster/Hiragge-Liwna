@@ -1,0 +1,42 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.sprintpay.payments.msreport",
+      "nativeLanguage": "fr"
+    },
+    "jhipsterVersion": "6.10.4",
+    "applicationType": "monolith",
+    "baseName": "test",
+    "packageName": "com.sprintpay.payments.msreport",
+    "packageFolder": "com/sprintpay/payments/msreport",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "NDc1YTFkMDc2MTkxNzFkZDAxMjkyODc0MjU2YzQ1OGUxMGFkNjdlMmZjNDA0ZTFjYzNlNTZkYTAzZmNkMDE3YWYwOTg3YmFhZjY0ZWZiMTQ0ZTA3N2I1ZTk1MWVjYWZhNzQ2MjRkMDlmNTk5MmFlODMyY2Y2OTNkNjRkYTA5Mzc=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "creationTimestamp": 1618640924163,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "nativeLanguage": "fr",
+    "languages": ["fr", "en"],
+    "blueprints": []
+  }
+}
