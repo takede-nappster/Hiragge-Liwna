@@ -1,0 +1,57 @@
+{
+  "name": "Jeux",
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateCreation",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "concepteur",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "prix",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "meilleurScore",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "lienTelechargement",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lienJouer",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "competition",
+      "otherEntityRelationshipName": "jeux",
+      "relationshipName": "competition",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20210502151514",
+  "entityTableName": "jeux",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

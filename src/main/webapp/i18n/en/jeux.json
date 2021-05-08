@@ -1,0 +1,30 @@
+{
+  "testApp": {
+    "jeux": {
+      "home": {
+        "title": "Jeuxes",
+        "createLabel": "Create a new Jeux",
+        "createOrEditLabel": "Create or edit a Jeux",
+        "notFound": "No Jeuxes found"
+      },
+      "created": "A new Jeux is created with identifier {{ param }}",
+      "updated": "A Jeux is updated with identifier {{ param }}",
+      "deleted": "A Jeux is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Jeux {{ id }}?"
+      },
+      "detail": {
+        "title": "Jeux"
+      },
+      "nom": "Nom",
+      "description": "Description",
+      "dateCreation": "Date Creation",
+      "concepteur": "Concepteur",
+      "prix": "Prix",
+      "meilleurScore": "Meilleur Score",
+      "lienTelechargement": "Lien Telechargement",
+      "lienJouer": "Lien Jouer",
+      "competition": "Competition"
+    }
+  }
+}

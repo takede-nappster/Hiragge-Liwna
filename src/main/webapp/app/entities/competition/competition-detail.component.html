@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="competition">
+            <h2><span jhiTranslate="testApp.competition.detail.title">Competition</span> {{ competition.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="testApp.competition.nom">Nom</span></dt>
+                <dd>
+                    <span>{{ competition.nom }}</span>
+                </dd>
+                <dt><span jhiTranslate="testApp.competition.description">Description</span></dt>
+                <dd>
+                    <span>{{ competition.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="testApp.competition.dateDebut">Date Debut</span></dt>
+                <dd>
+                    <span>{{ competition.dateDebut }}</span>
+                </dd>
+                <dt><span jhiTranslate="testApp.competition.dateFin">Date Fin</span></dt>
+                <dd>
+                    <span>{{ competition.dateFin }}</span>
+                </dd>
+                <dt><span jhiTranslate="testApp.competition.nombreParticipant">Nombre Participant</span></dt>
+                <dd>
+                    <span>{{ competition.nombreParticipant }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/competition', competition.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

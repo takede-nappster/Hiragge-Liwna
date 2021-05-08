@@ -1,0 +1,9 @@
+{
+  "testApp": {
+    "UserType": {
+      "null": "",
+      "ADMINISTRATEUR": "ADMINISTRATEUR",
+      "SIMPLE": "SIMPLE"
+    }
+  }
+}

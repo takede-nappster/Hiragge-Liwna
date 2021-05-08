@@ -1,0 +1,45 @@
+
+entity Jeux {
+   nom String
+   description String
+   dateCreation LocalDate
+   concepteur String
+   prix Double
+   meilleurScore Integer
+   lienTelechargement String
+   lienJouer String
+}
+
+entity Competition {
+	nom String
+    description String
+    dateDebut LocalDate
+    dateFin LocalDate
+    nombreParticipant Integer
+}
+
+entity Match {
+	dateMatch LocalDate
+}
+
+entity Utilisateur {
+	userType UserType
+}
+
+enum UserType {
+	ADMINISTRATEUR, SIMPLE
+}
+
+relationship OneToMany {
+  Competition{jeux} to Jeux{competition}
+  Competition{match} to Match{competition}
+}
+
+relationship ManyToMany {
+	Utilisateur{match} to Match{utilisateur}
+}
+
+filter Jeux, Competition, Match, Utilisateur
+dto Jeux, Competition, Match, Utilisateur with mapstruct
+service Jeux, Competition, Match, Utilisateur with serviceClass
+paginate Jeux, Competition, Match, Utilisateur with pagination

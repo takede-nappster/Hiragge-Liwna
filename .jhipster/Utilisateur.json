@@ -1,0 +1,31 @@
+{
+  "name": "Utilisateur",
+  "fields": [
+    {
+      "fieldName": "userType",
+      "fieldType": "UserType",
+      "fieldValues": "ADMINISTRATEUR,SIMPLE"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "match",
+      "otherEntityRelationshipName": "utilisateur",
+      "relationshipName": "match",
+      "otherEntityField": "id",
+      "ownerSide": true
+    }
+  ],
+  "changelogDate": "20210502151814",
+  "entityTableName": "utilisateur",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

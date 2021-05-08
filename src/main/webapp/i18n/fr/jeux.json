@@ -1,0 +1,30 @@
+{
+  "testApp": {
+    "jeux": {
+      "home": {
+        "title": "Jeuxes",
+        "createLabel": "Créer un nouveau Jeux",
+        "createOrEditLabel": "Créer ou éditer un Jeux",
+        "notFound": "Aucun Jeux trouvé"
+      },
+      "created": "Un nouveau Jeux a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Jeux avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Jeux avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Jeux {{ id }} ?"
+      },
+      "detail": {
+        "title": "Jeux"
+      },
+      "nom": "Nom",
+      "description": "Description",
+      "dateCreation": "Date Creation",
+      "concepteur": "Concepteur",
+      "prix": "Prix",
+      "meilleurScore": "Meilleur Score",
+      "lienTelechargement": "Lien Telechargement",
+      "lienJouer": "Lien Jouer",
+      "competition": "Competition"
+    }
+  }
+}

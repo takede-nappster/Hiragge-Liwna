@@ -1,0 +1,64 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="jeux">
+            <h2><span jhiTranslate="testApp.jeux.detail.title">Jeux</span> {{ jeux.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="testApp.jeux.nom">Nom</span></dt>
+                <dd>
+                    <span>{{ jeux.nom }}</span>
+                </dd>
+                <dt><span jhiTranslate="testApp.jeux.description">Description</span></dt>
+                <dd>
+                    <span>{{ jeux.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="testApp.jeux.dateCreation">Date Creation</span></dt>
+                <dd>
+                    <span>{{ jeux.dateCreation }}</span>
+                </dd>
+                <dt><span jhiTranslate="testApp.jeux.concepteur">Concepteur</span></dt>
+                <dd>
+                    <span>{{ jeux.concepteur }}</span>
+                </dd>
+                <dt><span jhiTranslate="testApp.jeux.prix">Prix</span></dt>
+                <dd>
+                    <span>{{ jeux.prix }}</span>
+                </dd>
+                <dt><span jhiTranslate="testApp.jeux.meilleurScore">Meilleur Score</span></dt>
+                <dd>
+                    <span>{{ jeux.meilleurScore }}</span>
+                </dd>
+                <dt><span jhiTranslate="testApp.jeux.lienTelechargement">Lien Telechargement</span></dt>
+                <dd>
+                    <span>{{ jeux.lienTelechargement }}</span>
+                </dd>
+                <dt><span jhiTranslate="testApp.jeux.lienJouer">Lien Jouer</span></dt>
+                <dd>
+                    <span>{{ jeux.lienJouer }}</span>
+                </dd>
+                <dt><span jhiTranslate="testApp.jeux.competition">Competition</span></dt>
+                <dd>
+                    <div *ngIf="jeux.competitionId">
+                        <a [routerLink]="['/competition', jeux.competitionId, 'view']">{{ jeux.competitionId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/jeux', jeux.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

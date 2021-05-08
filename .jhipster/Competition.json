@@ -1,0 +1,50 @@
+{
+  "name": "Competition",
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateDebut",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "dateFin",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "nombreParticipant",
+      "fieldType": "Integer"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "jeux",
+      "otherEntityRelationshipName": "competition",
+      "relationshipName": "jeux"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "match",
+      "otherEntityRelationshipName": "competition",
+      "relationshipName": "match"
+    }
+  ],
+  "changelogDate": "20210502151614",
+  "entityTableName": "competition",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}
