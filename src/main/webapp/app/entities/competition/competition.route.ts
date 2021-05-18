@@ -39,11 +39,11 @@ export const competitionRoute: Routes = [
     path: '',
     component: CompetitionComponent,
     data: {
-      authorities: [Authority.USER],
+    //  authorities: [Authority.USER],
       defaultSort: 'id,asc',
       pageTitle: 'testApp.competition.home.title',
     },
-    canActivate: [UserRouteAccessService],
+    //canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
@@ -52,10 +52,10 @@ export const competitionRoute: Routes = [
       competition: CompetitionResolve,
     },
     data: {
-      authorities: [Authority.USER],
+    //  authorities: [Authority.USER],
       pageTitle: 'testApp.competition.home.title',
     },
-    canActivate: [UserRouteAccessService],
+    //canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',

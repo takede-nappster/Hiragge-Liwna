@@ -11,6 +11,8 @@
         "competition": "Competition",
         "match": "Match",
         "utilisateur": "Utilisateur",
+        "recherche": "Recherche",
+        "decouverte": "Decouverte",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

@@ -31,6 +31,7 @@
   },
   "defaultProject": "test",
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": "443a658a-81fe-46ec-83e5-dffa60050bcb"
   }
 }

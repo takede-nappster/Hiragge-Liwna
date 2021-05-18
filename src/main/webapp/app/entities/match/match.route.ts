@@ -39,11 +39,11 @@ export const matchRoute: Routes = [
     path: '',
     component: MatchComponent,
     data: {
-      authorities: [Authority.USER],
+    //  authorities: [Authority.USER],
       defaultSort: 'id,asc',
       pageTitle: 'testApp.match.home.title',
     },
-    canActivate: [UserRouteAccessService],
+    //canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
@@ -52,10 +52,10 @@ export const matchRoute: Routes = [
       match: MatchResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      //authorities: [Authority.USER],
       pageTitle: 'testApp.match.home.title',
     },
-    canActivate: [UserRouteAccessService],
+    //canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',

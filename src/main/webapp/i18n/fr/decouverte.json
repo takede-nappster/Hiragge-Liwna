@@ -1,0 +1,21 @@
+{
+  "testApp": {
+    "decouverte": {
+      "home": {
+        "title": "Decouvertes",
+        "createLabel": "Créer un nouveau Decouverte",
+        "createOrEditLabel": "Créer ou éditer un Decouverte",
+        "notFound": "Aucun Decouverte trouvé"
+      },
+      "created": "Un nouveau Decouverte a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Decouverte avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Decouverte avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Decouverte {{ id }} ?"
+      },
+      "detail": {
+        "title": "Decouverte"
+      }
+    }
+  }
+}

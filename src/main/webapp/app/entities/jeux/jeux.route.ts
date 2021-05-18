@@ -39,11 +39,11 @@ export const jeuxRoute: Routes = [
     path: '',
     component: JeuxComponent,
     data: {
-      authorities: [Authority.USER],
+      //authorities: [Authority.USER],
       defaultSort: 'id,asc',
       pageTitle: 'testApp.jeux.home.title',
     },
-    canActivate: [UserRouteAccessService],
+    //canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
@@ -52,10 +52,10 @@ export const jeuxRoute: Routes = [
       jeux: JeuxResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      //authorities: [Authority.USER],
       pageTitle: 'testApp.jeux.home.title',
     },
-    canActivate: [UserRouteAccessService],
+    //canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',

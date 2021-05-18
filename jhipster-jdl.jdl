@@ -6,8 +6,10 @@ entity Jeux {
    concepteur String
    prix Double
    meilleurScore Integer
-   lienTelechargement String
+   logo ImageBlob
+   fichier Blob
    lienJouer String
+   
 }
 
 entity Competition {
@@ -16,10 +18,13 @@ entity Competition {
     dateDebut LocalDate
     dateFin LocalDate
     nombreParticipant Integer
+    createdBy String
 }
 
-entity Match {
+entity Rencontre {
+	titre String
 	dateMatch LocalDate
+    createdBy String
 }
 
 entity Utilisateur {
@@ -32,14 +37,14 @@ enum UserType {
 
 relationship OneToMany {
   Competition{jeux} to Jeux{competition}
-  Competition{match} to Match{competition}
+  Competition{rencontre} to Rencontre{competition}
 }
 
 relationship ManyToMany {
-	Utilisateur{match} to Match{utilisateur}
+	Utilisateur{rencontre} to Rencontre{utilisateur}
 }
 
 filter Jeux, Competition, Match, Utilisateur
-dto Jeux, Competition, Match, Utilisateur with mapstruct
-service Jeux, Competition, Match, Utilisateur with serviceClass
-paginate Jeux, Competition, Match, Utilisateur with pagination
+dto Jeux, Competition, Rencontre, Utilisateur with mapstruct
+service Jeux, Competition, Rencontre, Utilisateur with serviceClass
+paginate Jeux, Competition, Rencontre, Utilisateur with pagination

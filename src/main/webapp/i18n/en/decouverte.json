@@ -1,0 +1,21 @@
+{
+  "testApp": {
+    "decouverte": {
+      "home": {
+        "title": "Decouvertes",
+        "createLabel": "Create a new Decouverte",
+        "createOrEditLabel": "Create or edit a Decouverte",
+        "notFound": "No Decouvertes found"
+      },
+      "created": "A new Decouverte is created with identifier {{ param }}",
+      "updated": "A Decouverte is updated with identifier {{ param }}",
+      "deleted": "A Decouverte is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Decouverte {{ id }}?"
+      },
+      "detail": {
+        "title": "Decouverte"
+      }
+    }
+  }
+}

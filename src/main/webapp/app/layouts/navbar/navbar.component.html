@@ -18,8 +18,40 @@
                     </span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="jeux" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                    <fa-icon icon="gamepad" [fixedWidth]="true"></fa-icon>
+                    <span jhiTranslate="global.menu.entities.jeux">Jeux</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="competition" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                    <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                    <span jhiTranslate="global.menu.entities.competition">Competitions</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="match" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                    <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                    <span jhiTranslate="global.menu.entities.match">Match</span>
+                </a>
+            </li>
+            <!--<li class="nav-item">
+                <a class="nav-link" routerLink="utilisateur" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                    <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                    <span jhiTranslate="global.menu.entities.utilisateur">Utilisateur</span>
+                </a>
+            </li>-->
+
+
+
+
+
+
+
+
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-            <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <!--<li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
                         <fa-icon icon="th-list"></fa-icon>
@@ -53,9 +85,9 @@
                             <span jhiTranslate="global.menu.entities.utilisateur">Utilisateur</span>
                         </a>
                     </li>
-                    <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
+                    <!- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here --
                 </ul>
-            </li>
+            </li>-->
             <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
                     <span>
