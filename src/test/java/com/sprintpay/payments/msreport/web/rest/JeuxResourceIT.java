@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -40,9 +41,6 @@ public class JeuxResourceIT {
     private static final String DEFAULT_NOM = "AAAAAAAAAA";
     private static final String UPDATED_NOM = "BBBBBBBBBB";
 
-    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
-    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
-
     private static final LocalDate DEFAULT_DATE_CREATION = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATE_CREATION = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_DATE_CREATION = LocalDate.ofEpochDay(-1L);
@@ -58,11 +56,21 @@ public class JeuxResourceIT {
     private static final Integer UPDATED_MEILLEUR_SCORE = 2;
     private static final Integer SMALLER_MEILLEUR_SCORE = 1 - 1;
 
-    private static final String DEFAULT_LIEN_TELECHARGEMENT = "AAAAAAAAAA";
-    private static final String UPDATED_LIEN_TELECHARGEMENT = "BBBBBBBBBB";
-
     private static final String DEFAULT_LIEN_JOUER = "AAAAAAAAAA";
     private static final String UPDATED_LIEN_JOUER = "BBBBBBBBBB";
+
+    private static final byte[] DEFAULT_LOGO = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_LOGO = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_LOGO_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_LOGO_CONTENT_TYPE = "image/png";
+
+    private static final byte[] DEFAULT_SETUP_FILE = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_SETUP_FILE = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_SETUP_FILE_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_SETUP_FILE_CONTENT_TYPE = "image/png";
+
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
     @Autowired
     private JeuxRepository jeuxRepository;
@@ -93,13 +101,16 @@ public class JeuxResourceIT {
     public static Jeux createEntity(EntityManager em) {
         Jeux jeux = new Jeux()
             .nom(DEFAULT_NOM)
-            .description(DEFAULT_DESCRIPTION)
             .dateCreation(DEFAULT_DATE_CREATION)
             .concepteur(DEFAULT_CONCEPTEUR)
             .prix(DEFAULT_PRIX)
             .meilleurScore(DEFAULT_MEILLEUR_SCORE)
-            .lienTelechargement(DEFAULT_LIEN_TELECHARGEMENT)
-            .lienJouer(DEFAULT_LIEN_JOUER);
+            .lienJouer(DEFAULT_LIEN_JOUER)
+            .logo(DEFAULT_LOGO)
+            .logoContentType(DEFAULT_LOGO_CONTENT_TYPE)
+            .setupFile(DEFAULT_SETUP_FILE)
+            .setupFileContentType(DEFAULT_SETUP_FILE_CONTENT_TYPE)
+            .description(DEFAULT_DESCRIPTION);
         return jeux;
     }
     /**
@@ -111,13 +122,16 @@ public class JeuxResourceIT {
     public static Jeux createUpdatedEntity(EntityManager em) {
         Jeux jeux = new Jeux()
             .nom(UPDATED_NOM)
-            .description(UPDATED_DESCRIPTION)
             .dateCreation(UPDATED_DATE_CREATION)
             .concepteur(UPDATED_CONCEPTEUR)
             .prix(UPDATED_PRIX)
             .meilleurScore(UPDATED_MEILLEUR_SCORE)
-            .lienTelechargement(UPDATED_LIEN_TELECHARGEMENT)
-            .lienJouer(UPDATED_LIEN_JOUER);
+            .lienJouer(UPDATED_LIEN_JOUER)
+            .logo(UPDATED_LOGO)
+            .logoContentType(UPDATED_LOGO_CONTENT_TYPE)
+            .setupFile(UPDATED_SETUP_FILE)
+            .setupFileContentType(UPDATED_SETUP_FILE_CONTENT_TYPE)
+            .description(UPDATED_DESCRIPTION);
         return jeux;
     }
 
@@ -142,13 +156,16 @@ public class JeuxResourceIT {
         assertThat(jeuxList).hasSize(databaseSizeBeforeCreate + 1);
         Jeux testJeux = jeuxList.get(jeuxList.size() - 1);
         assertThat(testJeux.getNom()).isEqualTo(DEFAULT_NOM);
-        assertThat(testJeux.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testJeux.getDateCreation()).isEqualTo(DEFAULT_DATE_CREATION);
         assertThat(testJeux.getConcepteur()).isEqualTo(DEFAULT_CONCEPTEUR);
         assertThat(testJeux.getPrix()).isEqualTo(DEFAULT_PRIX);
         assertThat(testJeux.getMeilleurScore()).isEqualTo(DEFAULT_MEILLEUR_SCORE);
-        assertThat(testJeux.getLienTelechargement()).isEqualTo(DEFAULT_LIEN_TELECHARGEMENT);
         assertThat(testJeux.getLienJouer()).isEqualTo(DEFAULT_LIEN_JOUER);
+        assertThat(testJeux.getLogo()).isEqualTo(DEFAULT_LOGO);
+        assertThat(testJeux.getLogoContentType()).isEqualTo(DEFAULT_LOGO_CONTENT_TYPE);
+        assertThat(testJeux.getSetupFile()).isEqualTo(DEFAULT_SETUP_FILE);
+        assertThat(testJeux.getSetupFileContentType()).isEqualTo(DEFAULT_SETUP_FILE_CONTENT_TYPE);
+        assertThat(testJeux.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
 
     @Test
@@ -174,6 +191,26 @@ public class JeuxResourceIT {
 
     @Test
     @Transactional
+    public void checkDescriptionIsRequired() throws Exception {
+        int databaseSizeBeforeTest = jeuxRepository.findAll().size();
+        // set the field null
+        jeux.setDescription(null);
+
+        // Create the Jeux, which fails.
+        JeuxDTO jeuxDTO = jeuxMapper.toDto(jeux);
+
+
+        restJeuxMockMvc.perform(post("/api/jeuxes")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(jeuxDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Jeux> jeuxList = jeuxRepository.findAll();
+        assertThat(jeuxList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllJeuxes() throws Exception {
         // Initialize the database
         jeuxRepository.saveAndFlush(jeux);
@@ -184,13 +221,16 @@ public class JeuxResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(jeux.getId().intValue())))
             .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].dateCreation").value(hasItem(DEFAULT_DATE_CREATION.toString())))
             .andExpect(jsonPath("$.[*].concepteur").value(hasItem(DEFAULT_CONCEPTEUR)))
             .andExpect(jsonPath("$.[*].prix").value(hasItem(DEFAULT_PRIX.doubleValue())))
             .andExpect(jsonPath("$.[*].meilleurScore").value(hasItem(DEFAULT_MEILLEUR_SCORE)))
-            .andExpect(jsonPath("$.[*].lienTelechargement").value(hasItem(DEFAULT_LIEN_TELECHARGEMENT)))
-            .andExpect(jsonPath("$.[*].lienJouer").value(hasItem(DEFAULT_LIEN_JOUER)));
+            .andExpect(jsonPath("$.[*].lienJouer").value(hasItem(DEFAULT_LIEN_JOUER)))
+            .andExpect(jsonPath("$.[*].logoContentType").value(hasItem(DEFAULT_LOGO_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].logo").value(hasItem(Base64Utils.encodeToString(DEFAULT_LOGO))))
+            .andExpect(jsonPath("$.[*].setupFileContentType").value(hasItem(DEFAULT_SETUP_FILE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].setupFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_SETUP_FILE))))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
     
     @Test
@@ -205,13 +245,16 @@ public class JeuxResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(jeux.getId().intValue()))
             .andExpect(jsonPath("$.nom").value(DEFAULT_NOM))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.dateCreation").value(DEFAULT_DATE_CREATION.toString()))
             .andExpect(jsonPath("$.concepteur").value(DEFAULT_CONCEPTEUR))
             .andExpect(jsonPath("$.prix").value(DEFAULT_PRIX.doubleValue()))
             .andExpect(jsonPath("$.meilleurScore").value(DEFAULT_MEILLEUR_SCORE))
-            .andExpect(jsonPath("$.lienTelechargement").value(DEFAULT_LIEN_TELECHARGEMENT))
-            .andExpect(jsonPath("$.lienJouer").value(DEFAULT_LIEN_JOUER));
+            .andExpect(jsonPath("$.lienJouer").value(DEFAULT_LIEN_JOUER))
+            .andExpect(jsonPath("$.logoContentType").value(DEFAULT_LOGO_CONTENT_TYPE))
+            .andExpect(jsonPath("$.logo").value(Base64Utils.encodeToString(DEFAULT_LOGO)))
+            .andExpect(jsonPath("$.setupFileContentType").value(DEFAULT_SETUP_FILE_CONTENT_TYPE))
+            .andExpect(jsonPath("$.setupFile").value(Base64Utils.encodeToString(DEFAULT_SETUP_FILE)))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
 
@@ -309,84 +352,6 @@ public class JeuxResourceIT {
 
         // Get all the jeuxList where nom does not contain UPDATED_NOM
         defaultJeuxShouldBeFound("nom.doesNotContain=" + UPDATED_NOM);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllJeuxesByDescriptionIsEqualToSomething() throws Exception {
-        // Initialize the database
-        jeuxRepository.saveAndFlush(jeux);
-
-        // Get all the jeuxList where description equals to DEFAULT_DESCRIPTION
-        defaultJeuxShouldBeFound("description.equals=" + DEFAULT_DESCRIPTION);
-
-        // Get all the jeuxList where description equals to UPDATED_DESCRIPTION
-        defaultJeuxShouldNotBeFound("description.equals=" + UPDATED_DESCRIPTION);
-    }
-
-    @Test
-    @Transactional
-    public void getAllJeuxesByDescriptionIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        jeuxRepository.saveAndFlush(jeux);
-
-        // Get all the jeuxList where description not equals to DEFAULT_DESCRIPTION
-        defaultJeuxShouldNotBeFound("description.notEquals=" + DEFAULT_DESCRIPTION);
-
-        // Get all the jeuxList where description not equals to UPDATED_DESCRIPTION
-        defaultJeuxShouldBeFound("description.notEquals=" + UPDATED_DESCRIPTION);
-    }
-
-    @Test
-    @Transactional
-    public void getAllJeuxesByDescriptionIsInShouldWork() throws Exception {
-        // Initialize the database
-        jeuxRepository.saveAndFlush(jeux);
-
-        // Get all the jeuxList where description in DEFAULT_DESCRIPTION or UPDATED_DESCRIPTION
-        defaultJeuxShouldBeFound("description.in=" + DEFAULT_DESCRIPTION + "," + UPDATED_DESCRIPTION);
-
-        // Get all the jeuxList where description equals to UPDATED_DESCRIPTION
-        defaultJeuxShouldNotBeFound("description.in=" + UPDATED_DESCRIPTION);
-    }
-
-    @Test
-    @Transactional
-    public void getAllJeuxesByDescriptionIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        jeuxRepository.saveAndFlush(jeux);
-
-        // Get all the jeuxList where description is not null
-        defaultJeuxShouldBeFound("description.specified=true");
-
-        // Get all the jeuxList where description is null
-        defaultJeuxShouldNotBeFound("description.specified=false");
-    }
-                @Test
-    @Transactional
-    public void getAllJeuxesByDescriptionContainsSomething() throws Exception {
-        // Initialize the database
-        jeuxRepository.saveAndFlush(jeux);
-
-        // Get all the jeuxList where description contains DEFAULT_DESCRIPTION
-        defaultJeuxShouldBeFound("description.contains=" + DEFAULT_DESCRIPTION);
-
-        // Get all the jeuxList where description contains UPDATED_DESCRIPTION
-        defaultJeuxShouldNotBeFound("description.contains=" + UPDATED_DESCRIPTION);
-    }
-
-    @Test
-    @Transactional
-    public void getAllJeuxesByDescriptionNotContainsSomething() throws Exception {
-        // Initialize the database
-        jeuxRepository.saveAndFlush(jeux);
-
-        // Get all the jeuxList where description does not contain DEFAULT_DESCRIPTION
-        defaultJeuxShouldNotBeFound("description.doesNotContain=" + DEFAULT_DESCRIPTION);
-
-        // Get all the jeuxList where description does not contain UPDATED_DESCRIPTION
-        defaultJeuxShouldBeFound("description.doesNotContain=" + UPDATED_DESCRIPTION);
     }
 
 
@@ -785,84 +750,6 @@ public class JeuxResourceIT {
 
     @Test
     @Transactional
-    public void getAllJeuxesByLienTelechargementIsEqualToSomething() throws Exception {
-        // Initialize the database
-        jeuxRepository.saveAndFlush(jeux);
-
-        // Get all the jeuxList where lienTelechargement equals to DEFAULT_LIEN_TELECHARGEMENT
-        defaultJeuxShouldBeFound("lienTelechargement.equals=" + DEFAULT_LIEN_TELECHARGEMENT);
-
-        // Get all the jeuxList where lienTelechargement equals to UPDATED_LIEN_TELECHARGEMENT
-        defaultJeuxShouldNotBeFound("lienTelechargement.equals=" + UPDATED_LIEN_TELECHARGEMENT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllJeuxesByLienTelechargementIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        jeuxRepository.saveAndFlush(jeux);
-
-        // Get all the jeuxList where lienTelechargement not equals to DEFAULT_LIEN_TELECHARGEMENT
-        defaultJeuxShouldNotBeFound("lienTelechargement.notEquals=" + DEFAULT_LIEN_TELECHARGEMENT);
-
-        // Get all the jeuxList where lienTelechargement not equals to UPDATED_LIEN_TELECHARGEMENT
-        defaultJeuxShouldBeFound("lienTelechargement.notEquals=" + UPDATED_LIEN_TELECHARGEMENT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllJeuxesByLienTelechargementIsInShouldWork() throws Exception {
-        // Initialize the database
-        jeuxRepository.saveAndFlush(jeux);
-
-        // Get all the jeuxList where lienTelechargement in DEFAULT_LIEN_TELECHARGEMENT or UPDATED_LIEN_TELECHARGEMENT
-        defaultJeuxShouldBeFound("lienTelechargement.in=" + DEFAULT_LIEN_TELECHARGEMENT + "," + UPDATED_LIEN_TELECHARGEMENT);
-
-        // Get all the jeuxList where lienTelechargement equals to UPDATED_LIEN_TELECHARGEMENT
-        defaultJeuxShouldNotBeFound("lienTelechargement.in=" + UPDATED_LIEN_TELECHARGEMENT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllJeuxesByLienTelechargementIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        jeuxRepository.saveAndFlush(jeux);
-
-        // Get all the jeuxList where lienTelechargement is not null
-        defaultJeuxShouldBeFound("lienTelechargement.specified=true");
-
-        // Get all the jeuxList where lienTelechargement is null
-        defaultJeuxShouldNotBeFound("lienTelechargement.specified=false");
-    }
-                @Test
-    @Transactional
-    public void getAllJeuxesByLienTelechargementContainsSomething() throws Exception {
-        // Initialize the database
-        jeuxRepository.saveAndFlush(jeux);
-
-        // Get all the jeuxList where lienTelechargement contains DEFAULT_LIEN_TELECHARGEMENT
-        defaultJeuxShouldBeFound("lienTelechargement.contains=" + DEFAULT_LIEN_TELECHARGEMENT);
-
-        // Get all the jeuxList where lienTelechargement contains UPDATED_LIEN_TELECHARGEMENT
-        defaultJeuxShouldNotBeFound("lienTelechargement.contains=" + UPDATED_LIEN_TELECHARGEMENT);
-    }
-
-    @Test
-    @Transactional
-    public void getAllJeuxesByLienTelechargementNotContainsSomething() throws Exception {
-        // Initialize the database
-        jeuxRepository.saveAndFlush(jeux);
-
-        // Get all the jeuxList where lienTelechargement does not contain DEFAULT_LIEN_TELECHARGEMENT
-        defaultJeuxShouldNotBeFound("lienTelechargement.doesNotContain=" + DEFAULT_LIEN_TELECHARGEMENT);
-
-        // Get all the jeuxList where lienTelechargement does not contain UPDATED_LIEN_TELECHARGEMENT
-        defaultJeuxShouldBeFound("lienTelechargement.doesNotContain=" + UPDATED_LIEN_TELECHARGEMENT);
-    }
-
-
-    @Test
-    @Transactional
     public void getAllJeuxesByLienJouerIsEqualToSomething() throws Exception {
         // Initialize the database
         jeuxRepository.saveAndFlush(jeux);
@@ -941,6 +828,84 @@ public class JeuxResourceIT {
 
     @Test
     @Transactional
+    public void getAllJeuxesByDescriptionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        jeuxRepository.saveAndFlush(jeux);
+
+        // Get all the jeuxList where description equals to DEFAULT_DESCRIPTION
+        defaultJeuxShouldBeFound("description.equals=" + DEFAULT_DESCRIPTION);
+
+        // Get all the jeuxList where description equals to UPDATED_DESCRIPTION
+        defaultJeuxShouldNotBeFound("description.equals=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJeuxesByDescriptionIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        jeuxRepository.saveAndFlush(jeux);
+
+        // Get all the jeuxList where description not equals to DEFAULT_DESCRIPTION
+        defaultJeuxShouldNotBeFound("description.notEquals=" + DEFAULT_DESCRIPTION);
+
+        // Get all the jeuxList where description not equals to UPDATED_DESCRIPTION
+        defaultJeuxShouldBeFound("description.notEquals=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJeuxesByDescriptionIsInShouldWork() throws Exception {
+        // Initialize the database
+        jeuxRepository.saveAndFlush(jeux);
+
+        // Get all the jeuxList where description in DEFAULT_DESCRIPTION or UPDATED_DESCRIPTION
+        defaultJeuxShouldBeFound("description.in=" + DEFAULT_DESCRIPTION + "," + UPDATED_DESCRIPTION);
+
+        // Get all the jeuxList where description equals to UPDATED_DESCRIPTION
+        defaultJeuxShouldNotBeFound("description.in=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJeuxesByDescriptionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        jeuxRepository.saveAndFlush(jeux);
+
+        // Get all the jeuxList where description is not null
+        defaultJeuxShouldBeFound("description.specified=true");
+
+        // Get all the jeuxList where description is null
+        defaultJeuxShouldNotBeFound("description.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllJeuxesByDescriptionContainsSomething() throws Exception {
+        // Initialize the database
+        jeuxRepository.saveAndFlush(jeux);
+
+        // Get all the jeuxList where description contains DEFAULT_DESCRIPTION
+        defaultJeuxShouldBeFound("description.contains=" + DEFAULT_DESCRIPTION);
+
+        // Get all the jeuxList where description contains UPDATED_DESCRIPTION
+        defaultJeuxShouldNotBeFound("description.contains=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJeuxesByDescriptionNotContainsSomething() throws Exception {
+        // Initialize the database
+        jeuxRepository.saveAndFlush(jeux);
+
+        // Get all the jeuxList where description does not contain DEFAULT_DESCRIPTION
+        defaultJeuxShouldNotBeFound("description.doesNotContain=" + DEFAULT_DESCRIPTION);
+
+        // Get all the jeuxList where description does not contain UPDATED_DESCRIPTION
+        defaultJeuxShouldBeFound("description.doesNotContain=" + UPDATED_DESCRIPTION);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllJeuxesByCompetitionIsEqualToSomething() throws Exception {
         // Initialize the database
         jeuxRepository.saveAndFlush(jeux);
@@ -967,13 +932,16 @@ public class JeuxResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(jeux.getId().intValue())))
             .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].dateCreation").value(hasItem(DEFAULT_DATE_CREATION.toString())))
             .andExpect(jsonPath("$.[*].concepteur").value(hasItem(DEFAULT_CONCEPTEUR)))
             .andExpect(jsonPath("$.[*].prix").value(hasItem(DEFAULT_PRIX.doubleValue())))
             .andExpect(jsonPath("$.[*].meilleurScore").value(hasItem(DEFAULT_MEILLEUR_SCORE)))
-            .andExpect(jsonPath("$.[*].lienTelechargement").value(hasItem(DEFAULT_LIEN_TELECHARGEMENT)))
-            .andExpect(jsonPath("$.[*].lienJouer").value(hasItem(DEFAULT_LIEN_JOUER)));
+            .andExpect(jsonPath("$.[*].lienJouer").value(hasItem(DEFAULT_LIEN_JOUER)))
+            .andExpect(jsonPath("$.[*].logoContentType").value(hasItem(DEFAULT_LOGO_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].logo").value(hasItem(Base64Utils.encodeToString(DEFAULT_LOGO))))
+            .andExpect(jsonPath("$.[*].setupFileContentType").value(hasItem(DEFAULT_SETUP_FILE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].setupFile").value(hasItem(Base64Utils.encodeToString(DEFAULT_SETUP_FILE))))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
 
         // Check, that the count call also returns 1
         restJeuxMockMvc.perform(get("/api/jeuxes/count?sort=id,desc&" + filter))
@@ -1021,13 +989,16 @@ public class JeuxResourceIT {
         em.detach(updatedJeux);
         updatedJeux
             .nom(UPDATED_NOM)
-            .description(UPDATED_DESCRIPTION)
             .dateCreation(UPDATED_DATE_CREATION)
             .concepteur(UPDATED_CONCEPTEUR)
             .prix(UPDATED_PRIX)
             .meilleurScore(UPDATED_MEILLEUR_SCORE)
-            .lienTelechargement(UPDATED_LIEN_TELECHARGEMENT)
-            .lienJouer(UPDATED_LIEN_JOUER);
+            .lienJouer(UPDATED_LIEN_JOUER)
+            .logo(UPDATED_LOGO)
+            .logoContentType(UPDATED_LOGO_CONTENT_TYPE)
+            .setupFile(UPDATED_SETUP_FILE)
+            .setupFileContentType(UPDATED_SETUP_FILE_CONTENT_TYPE)
+            .description(UPDATED_DESCRIPTION);
         JeuxDTO jeuxDTO = jeuxMapper.toDto(updatedJeux);
 
         restJeuxMockMvc.perform(put("/api/jeuxes")
@@ -1040,13 +1011,16 @@ public class JeuxResourceIT {
         assertThat(jeuxList).hasSize(databaseSizeBeforeUpdate);
         Jeux testJeux = jeuxList.get(jeuxList.size() - 1);
         assertThat(testJeux.getNom()).isEqualTo(UPDATED_NOM);
-        assertThat(testJeux.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testJeux.getDateCreation()).isEqualTo(UPDATED_DATE_CREATION);
         assertThat(testJeux.getConcepteur()).isEqualTo(UPDATED_CONCEPTEUR);
         assertThat(testJeux.getPrix()).isEqualTo(UPDATED_PRIX);
         assertThat(testJeux.getMeilleurScore()).isEqualTo(UPDATED_MEILLEUR_SCORE);
-        assertThat(testJeux.getLienTelechargement()).isEqualTo(UPDATED_LIEN_TELECHARGEMENT);
         assertThat(testJeux.getLienJouer()).isEqualTo(UPDATED_LIEN_JOUER);
+        assertThat(testJeux.getLogo()).isEqualTo(UPDATED_LOGO);
+        assertThat(testJeux.getLogoContentType()).isEqualTo(UPDATED_LOGO_CONTENT_TYPE);
+        assertThat(testJeux.getSetupFile()).isEqualTo(UPDATED_SETUP_FILE);
+        assertThat(testJeux.getSetupFileContentType()).isEqualTo(UPDATED_SETUP_FILE_CONTENT_TYPE);
+        assertThat(testJeux.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 
     @Test

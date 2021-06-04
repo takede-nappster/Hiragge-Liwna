@@ -18,7 +18,7 @@
             <div class="row" *ngIf="jeuxes && jeuxes.length > 0">
                 <div class="col-md-3" *ngFor="let jeux of jeuxes ;trackBy: trackId">
                     <div class="card" style="width: 18rem;">
-                        <img src="../../../content/images/logo.png" class="card-img-top" alt="...">
+                        <img [src]="'data:' + jeux.logoContentType + ';base64,' + jeux.logo" style="max-width: 100%;" alt="jeux image" class="card-img-top" >
                         <div class="card-body">
                             <h5 class="card-title">{{ jeux.nom }}</h5>
                             <button type="submit"

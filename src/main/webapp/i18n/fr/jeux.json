@@ -17,13 +17,14 @@
         "title": "Jeux"
       },
       "nom": "Nom",
-      "description": "Description",
       "dateCreation": "Date Creation",
       "concepteur": "Concepteur",
       "prix": "Prix",
       "meilleurScore": "Meilleur Score",
-      "lienTelechargement": "Lien Telechargement",
       "lienJouer": "Lien Jouer",
+      "logo": "Logo",
+      "setupFile": "Setup File",
+      "description": "Description",
       "competition": "Competition"
     }
   }

@@ -64,10 +64,10 @@ export const jeuxRoute: Routes = [
       jeux: JeuxResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      //authorities: [Authority.USER],
       pageTitle: 'testApp.jeux.home.title',
     },
-    canActivate: [UserRouteAccessService],
+    //canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/edit',
@@ -76,9 +76,9 @@ export const jeuxRoute: Routes = [
       jeux: JeuxResolve,
     },
     data: {
-      authorities: [Authority.USER],
+    //  authorities: [Authority.USER],
       pageTitle: 'testApp.jeux.home.title',
     },
-    canActivate: [UserRouteAccessService],
+    //canActivate: [UserRouteAccessService],
   },
 ];

@@ -94,9 +94,6 @@ public class JeuxQueryService extends QueryService<Jeux> {
             if (criteria.getNom() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNom(), Jeux_.nom));
             }
-            if (criteria.getDescription() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDescription(), Jeux_.description));
-            }
             if (criteria.getDateCreation() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDateCreation(), Jeux_.dateCreation));
             }
@@ -109,11 +106,11 @@ public class JeuxQueryService extends QueryService<Jeux> {
             if (criteria.getMeilleurScore() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getMeilleurScore(), Jeux_.meilleurScore));
             }
-            if (criteria.getLienTelechargement() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getLienTelechargement(), Jeux_.lienTelechargement));
-            }
             if (criteria.getLienJouer() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLienJouer(), Jeux_.lienJouer));
+            }
+            if (criteria.getDescription() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getDescription(), Jeux_.description));
             }
             if (criteria.getCompetitionId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCompetitionId(),

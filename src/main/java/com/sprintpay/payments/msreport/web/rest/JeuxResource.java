@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,7 +57,7 @@ public class JeuxResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/jeuxes")
-    public ResponseEntity<JeuxDTO> createJeux(@RequestBody JeuxDTO jeuxDTO) throws URISyntaxException {
+    public ResponseEntity<JeuxDTO> createJeux(@Valid @RequestBody JeuxDTO jeuxDTO) throws URISyntaxException {
         log.debug("REST request to save Jeux : {}", jeuxDTO);
         if (jeuxDTO.getId() != null) {
             throw new BadRequestAlertException("A new jeux cannot already have an ID", ENTITY_NAME, "idexists");
@@ -77,7 +78,7 @@ public class JeuxResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/jeuxes")
-    public ResponseEntity<JeuxDTO> updateJeux(@RequestBody JeuxDTO jeuxDTO) throws URISyntaxException {
+    public ResponseEntity<JeuxDTO> updateJeux(@Valid @RequestBody JeuxDTO jeuxDTO) throws URISyntaxException {
         log.debug("REST request to update Jeux : {}", jeuxDTO);
         if (jeuxDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

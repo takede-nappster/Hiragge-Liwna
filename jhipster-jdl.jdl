@@ -6,8 +6,8 @@ entity Jeux {
    concepteur String
    prix Double
    meilleurScore Integer
-   logo ImageBlob
-   fichier Blob
+   logo String
+   fichier String
    lienJouer String
    
 }

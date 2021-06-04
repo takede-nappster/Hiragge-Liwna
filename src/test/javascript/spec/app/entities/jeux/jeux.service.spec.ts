@@ -24,7 +24,20 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Jeux(0, 'AAAAAAA', 'AAAAAAA', currentDate, 'AAAAAAA', 0, 0, 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Jeux(
+        0,
+        'AAAAAAA',
+        currentDate,
+        'AAAAAAA',
+        0,
+        0,
+        'AAAAAAA',
+        'image/png',
+        'AAAAAAA',
+        'image/png',
+        'AAAAAAA',
+        'AAAAAAA'
+      );
     });
 
     describe('Service methods', () => {
@@ -70,13 +83,14 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             nom: 'BBBBBB',
-            description: 'BBBBBB',
             dateCreation: currentDate.format(DATE_FORMAT),
             concepteur: 'BBBBBB',
             prix: 1,
             meilleurScore: 1,
-            lienTelechargement: 'BBBBBB',
             lienJouer: 'BBBBBB',
+            logo: 'BBBBBB',
+            setupFile: 'BBBBBB',
+            description: 'BBBBBB',
           },
           elemDefault
         );
@@ -99,13 +113,14 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             nom: 'BBBBBB',
-            description: 'BBBBBB',
             dateCreation: currentDate.format(DATE_FORMAT),
             concepteur: 'BBBBBB',
             prix: 1,
             meilleurScore: 1,
-            lienTelechargement: 'BBBBBB',
             lienJouer: 'BBBBBB',
+            logo: 'BBBBBB',
+            setupFile: 'BBBBBB',
+            description: 'BBBBBB',
           },
           elemDefault
         );

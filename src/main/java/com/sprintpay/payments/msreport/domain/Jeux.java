@@ -3,6 +3,7 @@ package com.sprintpay.payments.msreport.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -23,9 +24,6 @@ public class Jeux implements Serializable {
     @Column(name = "nom")
     private String nom;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "date_creation")
     private LocalDate dateCreation;
 
@@ -38,11 +36,27 @@ public class Jeux implements Serializable {
     @Column(name = "meilleur_score")
     private Integer meilleurScore;
 
-    @Column(name = "lien_telechargement")
-    private String lienTelechargement;
-
     @Column(name = "lien_jouer")
     private String lienJouer;
+
+    @Lob
+    @Column(name = "logo")
+    private byte[] logo;
+
+    @Column(name = "logo_content_type")
+    private String logoContentType;
+
+    @Lob
+    @Column(name = "setup_file")
+    private byte[] setupFile;
+
+    @Column(name = "setup_file_content_type")
+    private String setupFileContentType;
+
+    @NotNull
+    @Size(max = 10000)
+    @Column(name = "description", length = 10000, nullable = false)
+    private String description;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "jeuxes", allowSetters = true)
@@ -68,19 +82,6 @@ public class Jeux implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Jeux description(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public LocalDate getDateCreation() {
@@ -135,19 +136,6 @@ public class Jeux implements Serializable {
         this.meilleurScore = meilleurScore;
     }
 
-    public String getLienTelechargement() {
-        return lienTelechargement;
-    }
-
-    public Jeux lienTelechargement(String lienTelechargement) {
-        this.lienTelechargement = lienTelechargement;
-        return this;
-    }
-
-    public void setLienTelechargement(String lienTelechargement) {
-        this.lienTelechargement = lienTelechargement;
-    }
-
     public String getLienJouer() {
         return lienJouer;
     }
@@ -159,6 +147,71 @@ public class Jeux implements Serializable {
 
     public void setLienJouer(String lienJouer) {
         this.lienJouer = lienJouer;
+    }
+
+    public byte[] getLogo() {
+        return logo;
+    }
+
+    public Jeux logo(byte[] logo) {
+        this.logo = logo;
+        return this;
+    }
+
+    public void setLogo(byte[] logo) {
+        this.logo = logo;
+    }
+
+    public String getLogoContentType() {
+        return logoContentType;
+    }
+
+    public Jeux logoContentType(String logoContentType) {
+        this.logoContentType = logoContentType;
+        return this;
+    }
+
+    public void setLogoContentType(String logoContentType) {
+        this.logoContentType = logoContentType;
+    }
+
+    public byte[] getSetupFile() {
+        return setupFile;
+    }
+
+    public Jeux setupFile(byte[] setupFile) {
+        this.setupFile = setupFile;
+        return this;
+    }
+
+    public void setSetupFile(byte[] setupFile) {
+        this.setupFile = setupFile;
+    }
+
+    public String getSetupFileContentType() {
+        return setupFileContentType;
+    }
+
+    public Jeux setupFileContentType(String setupFileContentType) {
+        this.setupFileContentType = setupFileContentType;
+        return this;
+    }
+
+    public void setSetupFileContentType(String setupFileContentType) {
+        this.setupFileContentType = setupFileContentType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Jeux description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Competition getCompetition() {
@@ -197,13 +250,16 @@ public class Jeux implements Serializable {
         return "Jeux{" +
             "id=" + getId() +
             ", nom='" + getNom() + "'" +
-            ", description='" + getDescription() + "'" +
             ", dateCreation='" + getDateCreation() + "'" +
             ", concepteur='" + getConcepteur() + "'" +
             ", prix=" + getPrix() +
             ", meilleurScore=" + getMeilleurScore() +
-            ", lienTelechargement='" + getLienTelechargement() + "'" +
             ", lienJouer='" + getLienJouer() + "'" +
+            ", logo='" + getLogo() + "'" +
+            ", logoContentType='" + getLogoContentType() + "'" +
+            ", setupFile='" + getSetupFile() + "'" +
+            ", setupFileContentType='" + getSetupFileContentType() + "'" +
+            ", description='" + getDescription() + "'" +
             "}";
     }
 }

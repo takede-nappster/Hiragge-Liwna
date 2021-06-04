@@ -6,10 +6,6 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "description",
-      "fieldType": "String"
-    },
-    {
       "fieldName": "dateCreation",
       "fieldType": "LocalDate"
     },
@@ -26,12 +22,24 @@
       "fieldType": "Integer"
     },
     {
-      "fieldName": "lienTelechargement",
+      "fieldName": "lienJouer",
       "fieldType": "String"
     },
     {
-      "fieldName": "lienJouer",
-      "fieldType": "String"
+      "fieldName": "logo",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "setupFile",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "10000"
     }
   ],
   "relationships": [
@@ -53,5 +61,7 @@
   "readOnly": false,
   "embedded": false,
   "clientRootFolder": "",
-  "applications": "*"
+  "applications": "*",
+  "searchEngine": false,
+  "databaseType": "sql"
 }

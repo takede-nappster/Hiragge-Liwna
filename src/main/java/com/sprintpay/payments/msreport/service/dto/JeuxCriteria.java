@@ -29,8 +29,6 @@ public class JeuxCriteria implements Serializable, Criteria {
 
     private StringFilter nom;
 
-    private StringFilter description;
-
     private LocalDateFilter dateCreation;
 
     private StringFilter concepteur;
@@ -39,9 +37,9 @@ public class JeuxCriteria implements Serializable, Criteria {
 
     private IntegerFilter meilleurScore;
 
-    private StringFilter lienTelechargement;
-
     private StringFilter lienJouer;
+
+    private StringFilter description;
 
     private LongFilter competitionId;
 
@@ -51,13 +49,12 @@ public class JeuxCriteria implements Serializable, Criteria {
     public JeuxCriteria(JeuxCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.nom = other.nom == null ? null : other.nom.copy();
-        this.description = other.description == null ? null : other.description.copy();
         this.dateCreation = other.dateCreation == null ? null : other.dateCreation.copy();
         this.concepteur = other.concepteur == null ? null : other.concepteur.copy();
         this.prix = other.prix == null ? null : other.prix.copy();
         this.meilleurScore = other.meilleurScore == null ? null : other.meilleurScore.copy();
-        this.lienTelechargement = other.lienTelechargement == null ? null : other.lienTelechargement.copy();
         this.lienJouer = other.lienJouer == null ? null : other.lienJouer.copy();
+        this.description = other.description == null ? null : other.description.copy();
         this.competitionId = other.competitionId == null ? null : other.competitionId.copy();
     }
 
@@ -80,14 +77,6 @@ public class JeuxCriteria implements Serializable, Criteria {
 
     public void setNom(StringFilter nom) {
         this.nom = nom;
-    }
-
-    public StringFilter getDescription() {
-        return description;
-    }
-
-    public void setDescription(StringFilter description) {
-        this.description = description;
     }
 
     public LocalDateFilter getDateCreation() {
@@ -122,20 +111,20 @@ public class JeuxCriteria implements Serializable, Criteria {
         this.meilleurScore = meilleurScore;
     }
 
-    public StringFilter getLienTelechargement() {
-        return lienTelechargement;
-    }
-
-    public void setLienTelechargement(StringFilter lienTelechargement) {
-        this.lienTelechargement = lienTelechargement;
-    }
-
     public StringFilter getLienJouer() {
         return lienJouer;
     }
 
     public void setLienJouer(StringFilter lienJouer) {
         this.lienJouer = lienJouer;
+    }
+
+    public StringFilter getDescription() {
+        return description;
+    }
+
+    public void setDescription(StringFilter description) {
+        this.description = description;
     }
 
     public LongFilter getCompetitionId() {
@@ -159,13 +148,12 @@ public class JeuxCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(nom, that.nom) &&
-            Objects.equals(description, that.description) &&
             Objects.equals(dateCreation, that.dateCreation) &&
             Objects.equals(concepteur, that.concepteur) &&
             Objects.equals(prix, that.prix) &&
             Objects.equals(meilleurScore, that.meilleurScore) &&
-            Objects.equals(lienTelechargement, that.lienTelechargement) &&
             Objects.equals(lienJouer, that.lienJouer) &&
+            Objects.equals(description, that.description) &&
             Objects.equals(competitionId, that.competitionId);
     }
 
@@ -174,13 +162,12 @@ public class JeuxCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         nom,
-        description,
         dateCreation,
         concepteur,
         prix,
         meilleurScore,
-        lienTelechargement,
         lienJouer,
+        description,
         competitionId
         );
     }
@@ -191,13 +178,12 @@ public class JeuxCriteria implements Serializable, Criteria {
         return "JeuxCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (nom != null ? "nom=" + nom + ", " : "") +
-                (description != null ? "description=" + description + ", " : "") +
                 (dateCreation != null ? "dateCreation=" + dateCreation + ", " : "") +
                 (concepteur != null ? "concepteur=" + concepteur + ", " : "") +
                 (prix != null ? "prix=" + prix + ", " : "") +
                 (meilleurScore != null ? "meilleurScore=" + meilleurScore + ", " : "") +
-                (lienTelechargement != null ? "lienTelechargement=" + lienTelechargement + ", " : "") +
                 (lienJouer != null ? "lienJouer=" + lienJouer + ", " : "") +
+                (description != null ? "description=" + description + ", " : "") +
                 (competitionId != null ? "competitionId=" + competitionId + ", " : "") +
             "}";
     }

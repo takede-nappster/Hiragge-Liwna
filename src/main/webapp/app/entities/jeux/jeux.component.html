@@ -1,10 +1,10 @@
 <div>
     <h2 id="page-heading">
-        <span>Liste des jeux</span>
+        <span jhiTranslate="testApp.jeux.home.title">Jeuxes</span>
 
-        <button *jhiHasAnyAuthority="['ROLE_ADMIN']" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-jeux" [routerLink]="['/jeux/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-jeux" [routerLink]="['/jeux/new']">
             <fa-icon icon="plus"></fa-icon>
-            <span   jhiTranslate="testApp.jeux.home.createLabel">
+            <span  jhiTranslate="testApp.jeux.home.createLabel">
             Create a new Jeux
             </span>
         </button>
@@ -24,13 +24,14 @@
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="nom"><span jhiTranslate="testApp.jeux.nom">Nom</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="description"><span jhiTranslate="testApp.jeux.description">Description</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="dateCreation"><span jhiTranslate="testApp.jeux.dateCreation">Date Creation</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="concepteur"><span jhiTranslate="testApp.jeux.concepteur">Concepteur</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="prix"><span jhiTranslate="testApp.jeux.prix">Prix</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="meilleurScore"><span jhiTranslate="testApp.jeux.meilleurScore">Meilleur Score</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="lienTelechargement"><span jhiTranslate="testApp.jeux.lienTelechargement">Lien Telechargement</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="lienJouer"><span jhiTranslate="testApp.jeux.lienJouer">Lien Jouer</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="logo"><span jhiTranslate="testApp.jeux.logo">Logo</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="setupFile"><span jhiTranslate="testApp.jeux.setupFile">Setup File</span> <fa-icon icon="sort"></fa-icon></th>
+                    <!--<th scope="col"  jhiSortBy="description"><span jhiTranslate="testApp.jeux.description">Description</span> <fa-icon icon="sort"></fa-icon></th>-->
                     <th scope="col"  jhiSortBy="competitionId"><span jhiTranslate="testApp.jeux.competition">Competition</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -39,13 +40,22 @@
                 <tr *ngFor="let jeux of jeuxes ;trackBy: trackId">
                     <td><a [routerLink]="['/jeux', jeux.id, 'view']">{{ jeux.id }}</a></td>
                     <td>{{ jeux.nom }}</td>
-                    <td>{{ jeux.description }}</td>
                     <td>{{ jeux.dateCreation | date:'mediumDate' }}</td>
                     <td>{{ jeux.concepteur }}</td>
                     <td>{{ jeux.prix }}</td>
                     <td>{{ jeux.meilleurScore }}</td>
-                    <td>{{ jeux.lienTelechargement }}</td>
                     <td>{{ jeux.lienJouer }}</td>
+                    <td>
+                        <a *ngIf="jeux.logo" (click)="openFile(jeux.logoContentType, jeux.logo)">
+                            <img [src]="'data:' + jeux.logoContentType + ';base64,' + jeux.logo" style="max-height: 30px;" alt="jeux image"/>
+                        </a>
+                        <!--<span *ngIf="jeux.logo">{{ jeux.logoContentType }}, {{ byteSize(jeux.logo) }}</span>-->
+                    </td>
+                    <td>
+                        <a *ngIf="jeux.setupFile" (click)="openFile(jeux.setupFileContentType, jeux.setupFile)" jhiTranslate="entity.action.open">open</a>
+                        <span *ngIf="jeux.setupFile">{{ jeux.setupFileContentType }}, {{ byteSize(jeux.setupFile) }}</span>
+                    </td>
+                    <!--<td>{{ jeux.description }}</td>-->
                     <td>
                         <div *ngIf="jeux.competitionId">
                             <a [routerLink]="['/competition', jeux.competitionId , 'view']" >{{ jeux.competitionId }}</a>
@@ -60,14 +70,14 @@
                                 <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                             </button>
 
-                            <button *jhiHasAnyAuthority="['ROLE_ADMIN']" type="submit"
+                            <button type="submit"
                                     [routerLink]="['/jeux', jeux.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon icon="pencil-alt"></fa-icon>
                                 <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                             </button>
 
-                            <button *jhiHasAnyAuthority="['ROLE_ADMIN']" type="submit" (click)="delete(jeux)"
+                            <button type="submit" (click)="delete(jeux)"
                                     class="btn btn-danger btn-sm">
                                 <fa-icon icon="times"></fa-icon>
                                 <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

@@ -1,7 +1,9 @@
 package com.sprintpay.payments.msreport.service.dto;
 
 import java.time.LocalDate;
+import javax.validation.constraints.*;
 import java.io.Serializable;
+import javax.persistence.Lob;
 
 /**
  * A DTO for the {@link com.sprintpay.payments.msreport.domain.Jeux} entity.
@@ -12,8 +14,6 @@ public class JeuxDTO implements Serializable {
 
     private String nom;
 
-    private String description;
-
     private LocalDate dateCreation;
 
     private String concepteur;
@@ -22,9 +22,19 @@ public class JeuxDTO implements Serializable {
 
     private Integer meilleurScore;
 
-    private String lienTelechargement;
-
     private String lienJouer;
+
+    @Lob
+    private byte[] logo;
+
+    private String logoContentType;
+    @Lob
+    private byte[] setupFile;
+
+    private String setupFileContentType;
+    @NotNull
+    @Size(max = 10000)
+    private String description;
 
 
     private Long competitionId;
@@ -43,14 +53,6 @@ public class JeuxDTO implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public LocalDate getDateCreation() {
@@ -85,20 +87,52 @@ public class JeuxDTO implements Serializable {
         this.meilleurScore = meilleurScore;
     }
 
-    public String getLienTelechargement() {
-        return lienTelechargement;
-    }
-
-    public void setLienTelechargement(String lienTelechargement) {
-        this.lienTelechargement = lienTelechargement;
-    }
-
     public String getLienJouer() {
         return lienJouer;
     }
 
     public void setLienJouer(String lienJouer) {
         this.lienJouer = lienJouer;
+    }
+
+    public byte[] getLogo() {
+        return logo;
+    }
+
+    public void setLogo(byte[] logo) {
+        this.logo = logo;
+    }
+
+    public String getLogoContentType() {
+        return logoContentType;
+    }
+
+    public void setLogoContentType(String logoContentType) {
+        this.logoContentType = logoContentType;
+    }
+
+    public byte[] getSetupFile() {
+        return setupFile;
+    }
+
+    public void setSetupFile(byte[] setupFile) {
+        this.setupFile = setupFile;
+    }
+
+    public String getSetupFileContentType() {
+        return setupFileContentType;
+    }
+
+    public void setSetupFileContentType(String setupFileContentType) {
+        this.setupFileContentType = setupFileContentType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getCompetitionId() {
@@ -132,13 +166,14 @@ public class JeuxDTO implements Serializable {
         return "JeuxDTO{" +
             "id=" + getId() +
             ", nom='" + getNom() + "'" +
-            ", description='" + getDescription() + "'" +
             ", dateCreation='" + getDateCreation() + "'" +
             ", concepteur='" + getConcepteur() + "'" +
             ", prix=" + getPrix() +
             ", meilleurScore=" + getMeilleurScore() +
-            ", lienTelechargement='" + getLienTelechargement() + "'" +
             ", lienJouer='" + getLienJouer() + "'" +
+            ", logo='" + getLogo() + "'" +
+            ", setupFile='" + getSetupFile() + "'" +
+            ", description='" + getDescription() + "'" +
             ", competitionId=" + getCompetitionId() +
             "}";
     }

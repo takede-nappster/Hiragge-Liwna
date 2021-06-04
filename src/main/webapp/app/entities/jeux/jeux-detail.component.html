@@ -1,64 +1,132 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="jeux">
-            <h2><span jhiTranslate="testApp.jeux.detail.title">Jeux</span> {{ jeux.id }}</h2>
+            <h2><span> {{ jeux.nom }} </span></h2>
 
             <hr>
 
             <jhi-alert-error></jhi-alert-error>
-
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="testApp.jeux.nom">Nom</span></dt>
-                <dd>
-                    <span>{{ jeux.nom }}</span>
-                </dd>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <dt><span>Nom du jeux</span></dt>
+                            </div>
+                            <div class="col-md-10">
+                                <dd>
+                                    <span>{{ jeux.nom }}</span>
+                                </dd>                        
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <dt><span jhiTranslate="testApp.jeux.dateCreation">Date Creation</span></dt>
+                            </div>
+                            <div class="col-md-10">
+                                <dd>
+                                    <span>{{ jeux.dateCreation | date:'mediumDate' }}</span>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <dt><span jhiTranslate="testApp.jeux.concepteur">Concepteur</span></dt>
+                            </div>
+                            <div class="col-md-10">
+                                <dd>
+                                    <span>{{ jeux.concepteur }}</span>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <dt><span jhiTranslate="testApp.jeux.prix">Prix</span></dt>
+                            </div>
+                            <div class="col-md-10">
+                                <dd>
+                                    <span>{{ jeux.prix }}</span>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <dt><span jhiTranslate="testApp.jeux.meilleurScore">Meilleur Score</span></dt>
+                            </div>
+                            <div class="col-md-10">
+                                <dd>
+                                    <span>{{ jeux.meilleurScore }}</span>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <dt><span jhiTranslate="testApp.jeux.lienJouer">Lien pour jouer</span></dt>
+                            </div>
+                            <div class="col-md-10">
+                                <dd>
+                                    <a [href]="jeux.lienJouer" target="_blank">{{ jeux.lienJouer }}</a>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <dt><span jhiTranslate="testApp.jeux.competition">Competition</span></dt>
+                            </div>
+                            <div class="col-md-10">
+                                <dd>
+                                    <div *ngIf="jeux.competitionId">
+                                        <a [routerLink]="['/competition', jeux.competitionId, 'view']">{{ jeux.competitionId }}</a>
+                                    </div>
+                                </dd>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <!--<dt><span jhiTranslate="testApp.jeux.logo">Logo</span></dt>-->
+                        <dd>
+                            <div *ngIf="jeux.logo" >
+                                <!--<a (click)="openFile(jeux.logoContentType, jeux.logo)">-->
+                                    <img [src]="'data:' + jeux.logoContentType + ';base64,' + jeux.logo" style="max-width: 100%;" alt="jeux image"/>
+                                <!--</a>-->
+                                <!--{{ jeux.logoContentType }}, {{ byteSize(jeux.logo) }}-->
+                            </div>
+                        </dd>
+                    </div>
+                </div>
+                <br>
                 <dt><span jhiTranslate="testApp.jeux.description">Description</span></dt>
                 <dd>
-                    <span>{{ jeux.description }}</span>
-                </dd>
-                <dt><span jhiTranslate="testApp.jeux.dateCreation">Date Creation</span></dt>
-                <dd>
-                    <span>{{ jeux.dateCreation }}</span>
-                </dd>
-                <dt><span jhiTranslate="testApp.jeux.concepteur">Concepteur</span></dt>
-                <dd>
-                    <span>{{ jeux.concepteur }}</span>
-                </dd>
-                <dt><span jhiTranslate="testApp.jeux.prix">Prix</span></dt>
-                <dd>
-                    <span>{{ jeux.prix }}</span>
-                </dd>
-                <dt><span jhiTranslate="testApp.jeux.meilleurScore">Meilleur Score</span></dt>
-                <dd>
-                    <span>{{ jeux.meilleurScore }}</span>
-                </dd>
-                <dt><span jhiTranslate="testApp.jeux.lienTelechargement">Lien Telechargement</span></dt>
-                <dd>
-                    <span>{{ jeux.lienTelechargement }}</span>
-                </dd>
-                <dt><span jhiTranslate="testApp.jeux.lienJouer">Lien Jouer</span></dt>
-                <dd>
-                    <span>{{ jeux.lienJouer }}</span>
-                </dd>
-                <dt><span jhiTranslate="testApp.jeux.competition">Competition</span></dt>
-                <dd>
-                    <div *ngIf="jeux.competitionId">
-                        <a [routerLink]="['/competition', jeux.competitionId, 'view']">{{ jeux.competitionId }}</a>
-                    </div>
+                    <p> {{ jeux.description }} </p>
                 </dd>
             </dl>
-
-            <button type="submit"
+            <div class="row">
+                <div class="col-md-3">
+                    <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
-            </button>
-
-            <button *jhiHasAnyAuthority="['ROLE_ADMIN']" type="button"
+                        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <div *ngIf="jeux.setupFile">
+                        <button type="button" class="btn btn-primary" (click)="downLoadFile(jeux.setupFileContentType, jeux.setupFile)" >Téléchager</button>
+                        <!--{{ jeux.setupFileContentType }}, {{ byteSize(jeux.setupFile) }}-->
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <a [href]="jeux.lienJouer" class="btn btn-primary" target="_blank"> Jouer </a>
+                </div>
+                <div class="col-md-3">
+                    <button type="button"
                     [routerLink]="['/jeux', jeux.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
-            </button>
+                    class="btn btn-primary" *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+                    </button>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>
